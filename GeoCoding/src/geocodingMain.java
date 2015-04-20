@@ -26,7 +26,7 @@ public class geocodingMain{
             
        }
      
-     private static void dddressValidation() {
+     private static void doAddressValidation() {
     	 Connection  con = null;
     	 ResultSet rs = null;
     	 
