@@ -1,78 +1,41 @@
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Properties;
 
 
 public class geocodingMain{
 	protected static final PrintStream o = System.out;
+	private static Properties prop = new Properties();
+	private static String DB_ServerName = "";
+	private static String DB_InitialDatabase = "";
+	private static String DB_UserName = "";
+	private static String DB_pwd = "";
 	
      public static void main(String[] args) throws Exception
        {
-          //sqlTest myDbTest = new sqlTest();
-          //myDbTest.displayDbProperties();
-          
-          //connectionTest();
-    	 
-    	 //testAddressValidation(31774573);
-    	 
-    	 runAddressValidation();
-    	 System.out.println("Completed");
+         loadProps();
+         initialize();
+         
+         doAddressValidation();
+    	 o.println("Done");
             
        }
      
-     public static void connectionTest()
-     {
-        o.println("Starting main");
-
-        String url = null;
-        String userid = null;
-        String passwd = null;
-        
-        try
-        {
-          url = "jdbc:JdbcProgress:T:EPIS0000:6150:mfgsys";
-          userid= "sysprogress";
-          passwd= "sysprogress";
-
-          // Load the driver
-          Class.forName ("com.progress.sql.jdbc.JdbcProgressDriver");
-          o.println("Driver loaded");
-          
-          // We have to add any other options as additional properties in the prop argument.
-          // e.g., prop.put\("Caller", "ProgressTest"\);
-          
-          Connection con = DriverManager.getConnection(url, userid, passwd);
-          o.println(con.isClosed());
-          
-          // If we were unable to connect, an exception
-          // would have been thrown. So, if we get here,
-          // we are successfully connected to the URL
-          o.println("Connection established successfully");
-  	
-  		// Check for, and display and warnings generated
-  		// by the connect.
-  		//checkForWarning (con.getWarnings ());
-  		o.println("\nConnected to " + url);
-  		con.close();
-  		o.println(con.isClosed());
-        }
-        catch (Exception ex) {
-        	o.println("\nERROR " + ex.getMessage());
-        }
-     }
-     private static void runAddressValidation() {
+     private static void dddressValidation() {
     	 Connection  con = null;
     	 ResultSet rs = null;
     	 
     	 sqlTest myAddressList = new sqlTest();
          
-         myAddressList.setServername("dw.idexcorpnet.com");
-         myAddressList.setDatabasename("IDEX_KPI");
-         myAddressList.setUser("ODI_Admin");
-         myAddressList.setPwd("Qwerty1");
+         myAddressList.setServername(DB_ServerName);
+         myAddressList.setDatabasename(DB_InitialDatabase);
+         myAddressList.setUser(DB_UserName);
+         myAddressList.setPwd(DB_pwd);
          
          try {
              con = myAddressList.getConnection();
@@ -124,10 +87,10 @@ public class geocodingMain{
     	 
     	 sqlTest myAddressList = new sqlTest();
          
-         myAddressList.setServername("dw.idexcorpnet.com");
-         myAddressList.setDatabasename("IDEX_KPI");
-         myAddressList.setUser("ODI_Admin");
-         myAddressList.setPwd("Qwerty1");
+    	 myAddressList.setServername(DB_ServerName);
+         myAddressList.setDatabasename(DB_InitialDatabase);
+         myAddressList.setUser(DB_UserName);
+         myAddressList.setPwd(DB_pwd);
          
          try {
              con = myAddressList.getConnection();
@@ -232,5 +195,22 @@ public class geocodingMain{
         		 System.out.println("ERROR (updateMasterAddressError) : " + myAddressNumber + " : " + ex.getMessage());
         	 }
     	 }
+     }
+     
+     private static void loadProps() {
+		 try {
+           //load a properties file
+			 prop.load(new FileInputStream("./config.properties"));
+			 
+		 } catch (IOException ex) {
+			 ex.printStackTrace();
+		 }
+
+	 }
+     private static void initialize() {
+    	 if (!prop.getProperty("DB_ServerName").equals("")) {DB_ServerName=prop.getProperty("DB_ServerName");}
+    	 if (!prop.getProperty("DB_InitialDatabase").equals("")) {DB_InitialDatabase=prop.getProperty("DB_InitialDatabase");}
+    	 if (!prop.getProperty("DB_UserName").equals("")) {DB_UserName=prop.getProperty("DB_UserName");}
+    	 if (!prop.getProperty("DB_pwd").equals("")) {DB_pwd=prop.getProperty("DB_pwd");}
      }
 }

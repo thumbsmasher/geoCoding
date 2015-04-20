@@ -13,7 +13,6 @@ public class AddressValidator {
 
 	/* *
 	 * The Yahoo!Geocode API has been deprecated. Replace this service call w/ the Google Geocoding API
-	 * private final String _AppKey = "dj0yJmk9M0wwMHd4SnNaTlVWJmQ9WVdrOVRWQlNTRGxhTlRZbWNHbzlORFUyTkRreE5UWXkmcz1jb25zdW1lcnNlY3JldCZ4PTMw";
 	 * private final String _Uri = "http://where.yahooapis.com/geocode?appid=" + _AppKey + "&location=";
 	 * private final String _outputType = "xml"; 			// Available options: csv, xml, kml, json
      */
